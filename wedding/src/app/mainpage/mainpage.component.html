@@ -1,0 +1,172 @@
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark  justify-content-center">
+  <ul class="nav  nav-pills nav-fill ">
+    <li class="nav-item">
+      <a class="nav-link active " id="home" role="button" (click)="onMenuClick($event)">Home</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link " id="playlist" role="button" (click)="onMenuClick($event)">Lejátszási lista</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link " id="contact" role="button" (click)="onMenuClick($event)">Kapcsolat</a>
+      </li>
+  </ul>
+</nav>
+
+<div class="content">
+  <div class="row" *ngIf="menuId == 'home'">
+
+    <div class="col-md-3"></div>
+    <div class="col-md-6 textcontent">
+      <h3>Kedves mindenki!</h3>
+      <p class="w-75 text-justify p-2">
+        Itt próbáltuk összegyűjteni a legfontosabb információkat a Nagy Nappal kapcsolatosan. Igyekszünk minden esetlegesen felmerülő
+        kérdésre válaszolni, azonban ha mégsem sikerül, akkor a kapcsolat menüben található űrlappal tudtok üzenetet küldeni nekünk.
+        Nem gyorsabb mint messengeren vagy telefonon, de elegánsabb.
+        <i class="fa fa-smile-o fa-spin"></i>
+        <br>
+
+      </p>
+      <br>
+      <h4 class="pt-3">Szállások</h4>
+      <p class="w-75 text-justify p-2">
+        A pontos szobaelosztás még nem ismert, ez valószínűleg az
+        <i class="fa fa-heart text-danger heart-pulse"></i>ESEMÉNY<i class="fa fa-heart text-danger heart-pulse"></i> előtti pár hétben fog realizálódni.
+        <br> Ennek megfelelően ide is fel fog kerülni, de a helyszínen is megtaláljátok majd egy szép átlátható táblázatba rendezve.
+        Továbbá a bejáratnál a portán is.
+        <br> Ami biztos, hogy a szobákat 14 órától lehet elfoglalni.
+      </p>
+      <br>
+      <h4 class="pt-3">Helyszín</h4>
+      <p class="w-75 text-justify p-2">
+        A meghívón is rajta van, de
+        <a href="https://www.google.hu/maps/@46.1210388,17.9930169,185m/data=!3m1!1e3" target="_blank">itt</a> egy link is a Google Maps-hez.
+        <br>
+        Meg <a href="http://okobukkosd.hu/index.php/hu/" target="_blank">itt</a> van még egy, a helyszín honlapjával, szép képekkel stb.
+      </p>
+      <br>
+      <h4 class="pt-3">Egyebek</h4>
+      <p class="w-75 text-justify p-2">
+        Amit már az elején tisztázni szeretnénk:
+        <br> Nem várunk el semmilyen ajándékot, nem azért lett meghívva senki, hogy vagyonokat költsön ránk. Gyertek el, egyetek
+        igyatok, táncoljatok egy jót. Aki azonban mégis úgy érzi, hogy muszáj ajándékot adnia, mert a nélkül nem élet az
+        élet és egyébként se tudná már másra elkölteni azt a pénzt, annak jelezni szeretnénk, hogy az albérletünk teljesen
+        felszerelt és semmilyen konyhai, fürdőszobai, hálószobai eszköz nem fér már el a lakásban.
+        <br> Az előző mondatban viszont az 'albérlet' szót jó lenne 'saját lakás'-ra cserélni, ezért aki tűzön-vízen át ajándékozni
+        szeretne, ha meg nem sértjük ezzel, inkább tegye az ajándékra szánt összeget egy borítékba.
+        <br>
+
+      </p>
+    </div>
+  </div>
+  <div class="row" *ngIf="menuId == 'playlist'">
+
+    <div class="col-md-3"></div>
+    <div class="col-md-6 textcontent">
+      <h3 class="pt-3">Az ötlet:</h3>
+      <p class="w-75 p-2 text-justify">
+        <br> Mindenki megadhatja, milyen számot szeretne a buli közben hallani. Ezt a listát továbbítjuk a DJ-nek, és ő próbálja
+        majd úgy összeállítani a zenei palettát, hogy ami csak lehet ebből a listából bele kerüljön.
+        <br> Természetesen nem ígérek semmit, de ha van olyan zene amit szívesen hallanátok az esküvőn, akkor hajrá.
+        <br> Ebben a listában láthatjátok a már eddig hozzáadott dalokat, és adhattok hozzá ti is újakat, kedvetek szerint.
+        <br> Link nem kötelező, azonban az előadó és a szám címe eléggé fontos, szóval azokat légyszi mindenképp adjátok meg.
+      </p>
+      <div style="padding-bottom: 10px;">
+        <button class="btn btn-primary" *ngIf="showForm == false" (click)="onNewSongClick()">{{buttonText}}</button>
+        <button class="btn btn-primary" *ngIf="showForm == true" (click)="onCancelClick()">{{buttonText}}</button>
+      </div>
+      <form #f="ngForm" *ngIf="showForm == true" (ngSubmit)="onSaveClick()">
+        <div class="form-group">
+          <label for="title">Szám címe</label>
+          <input type="text" [(ngModel)]="song.title" name="title" class="form-control" placeholder="Szám címe" required [disabled]="linkAdd">
+        </div>
+        <div class="form-group">
+          <label for="artist">Előadó</label>
+          <input type="text" class="form-control" [(ngModel)]="song.artist" name="artist" placeholder="Előadó" required [disabled]="linkAdd">
+        </div>
+        <div class="form-group">
+          <label for="link">Link</label>
+          <input type="text" class="form-control" [(ngModel)]="song.link" name="link" placeholder="YouTube link" [required]="linkAdd" (ngModelChange)="onLinkChanged()">
+        </div>
+        <div class="form-group">
+          <button type="submit" [disabled]="!f.valid" class="btn btn-primary">Ez is szóljon, beküldöm!</button>
+        </div>
+      </form>
+      <!-- <table *ngIf="songs.length > 0" class="table table-hover"> -->
+      <div class="col-md-8 textcontent" *ngIf="songs.length == 0">
+        <p>Még nincs egyetlen szám sem a listában.
+          <i class="fa fa-frown-o fa-spin"></i>
+          <br> Nosza addj hozzá egy szép dalt!</p>
+      </div>
+      <table class="table table-hover" *ngIf="songs.length > 0">
+        <thead>
+          <tr>
+            <th>Előadó</th>
+            <th>Cím</th>
+            <th>YouTube link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let song of songs">
+            <td>{{song.artist}}</td>
+            <td>{{song.title}}</td>
+            <td *ngIf="song.link != null">
+              <a target="_blank" href='{{song.link}}'>Katt ide</a>
+            </td>
+            <td *ngIf="song.link == null">Nincs link
+              <i class="fa fa-frown-o"></i>
+            </td>
+            <td *ngIf="song.link == null">
+              <button type="button" class="btn btn-primary btn-rounded btn-sm my-0" (click)="onAddLinkClick(song)">Link hozzáadása</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row textcontent" *ngIf="menuId == 'contact'">
+    <div class="col-md-3"></div>
+    <div class="col-md-6 message-form">
+      <p class="w-75">
+        Elérhetőségeink:
+      </p>
+      <div class="row">
+        <div class="col-md-5">
+          <div class="card w-100" >
+            <div class="card-body">
+              <h5 class="card-title">Andi</h5>
+              <h6 class="card-subtitle mb-2 text-muted">Telefon</h6>
+              <p class="card-text">+36703958718</p>
+              <h6 class="card-subtitle mb-2 text-muted">E-mail</h6>
+              <p class="card-text">wagenhofferandrea@gmail.com</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-5">
+          <div class="card w-100" >
+            <div class="card-body">
+              <h5 class="card-title">Attila</h5>
+              <h6 class="card-subtitle mb-2 text-muted">Telefon</h6>
+              <p class="card-text">+36703402113</p>
+              <h6 class="card-subtitle mb-2 text-muted">E-mail</h6>
+              <p class="card-text">kiss.attila1001@gmail.com</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h4 class="pt-3" >Vagy küldj üzit közvetlen</h4>
+      <p class="w-75 p-1">Természetesen akárhogy üzenhettek, de amit itt elküldtök, azt mind a ketten egyszerre megkapjuk és nagyobb eséllyel kaptok rá
+        választ.</p>
+      <form #f="ngForm" (ngSubmit)="onSendMessage()">
+        <div class="form-group">
+          <label for="messageFrom">Neved</label>
+          <input type="text" class="form-control" [(ngModel)]="messageFrom" name="messageFrom" placeholder="" [required]="true">
+        </div>
+        <div class="form-group">
+          <label for="message">Üzenet</label>
+          <textarea class="form-control" name="message" [(ngModel)]="message" required></textarea>
+        </div>
+        <button type="submit" [disabled]="!f.valid" class="btn btn-primary">Kérdeznék, elküldöm!</button>
+      </form>
+    </div>
+  </div>
+</div>

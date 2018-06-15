@@ -1,0 +1,35 @@
+li.nav-item {
+    cursor: pointer;
+    color : #afafaf;
+}
+
+.content {
+    margin-top: 100px;
+}
+
+.row {
+    max-width: 100%;
+}
+
+.textcontent {
+    font-family: sans, 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana';
+    
+}
+.textcontent p {
+    color: #afafaf;
+}
+
+@keyframes pulse_animation {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.3); }
+    60% { transform: scale(1); }
+    100% { transform: scale(1); }
+}
+
+.heart-pulse {
+    animation-name: pulse_animation;
+    animation-duration: 1500ms;
+    transform-origin:70% 70%;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
